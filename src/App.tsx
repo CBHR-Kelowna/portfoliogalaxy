@@ -41,12 +41,11 @@ function AppContent() {
 
   return (
     <>
-      <Canvas camera={{ position: isMobile ? GLOBAL.INITIAL_CAMERA_MOBILE_POS : GLOBAL.INITIAL_CAMERA_DESKTOP_POS, fov: isMobile ? GLOBAL.INITIAL_CAMERA_MOBILE_FOV : GLOBAL.INITIAL_CAMERA_DESKTOP_FOV }} style={{ background: 'black' }} gl={{
+      <Canvas camera={{ position: isMobile ? GLOBAL.INITIAL_CAMERA_MOBILE_POS : GLOBAL.INITIAL_CAMERA_DESKTOP_POS, fov: isMobile ? GLOBAL.INITIAL_CAMERA_MOBILE_FOV : GLOBAL.INITIAL_CAMERA_DESKTOP_FOV }} style={{ background: 'black' }} dpr={window.devicePixelRatio} gl={{
         antialias: true,
         toneMapping: NoToneMapping,
         toneMappingExposure: GLOBAL.TONE_MAPPING_EXPOSURE,
         powerPreference: 'high-performance',
-        pixelRatio: window.devicePixelRatio,
       }}
       >
         {/* assets preloader & scene precompiler */}

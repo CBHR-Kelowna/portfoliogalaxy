@@ -11,6 +11,7 @@ import { setupZoomCamera } from "../../utils/setupZoomCamera";
 import Monitor from "./Device/Monitor";
 import Phone from "./Device/Phone";
 import { PerspectiveCamera, Quaternion, Vector3 } from "three";
+import * as THREE from "three";
 
 export function Room() {
   const { camera } = useThree() as { camera: PerspectiveCamera };
@@ -56,7 +57,7 @@ export function Room() {
       obj.visible = false;
       
       // Make transparent if it has materials
-      if (obj.material) {
+      if (obj instanceof THREE.Mesh && obj.material) {
         if (Array.isArray(obj.material)) {
           obj.material.forEach((mat: any) => {
             mat.transparent = true;
@@ -81,7 +82,7 @@ export function Room() {
       // Hide all children recursively
       obj.traverse((child: any) => {
         child.visible = false;
-        if (child.material) {
+        if (child instanceof THREE.Mesh && child.material) {
           if (Array.isArray(child.material)) {
             child.material.forEach((mat: any) => {
               mat.transparent = true;
@@ -111,7 +112,7 @@ export function Room() {
         // Check if object name contains unwanted branding or if it's emissive (glowing)
         const shouldHide = obj.name.toLowerCase().includes('techinz') || 
                           obj.name.toLowerCase().includes('dev') ||
-                          (obj.material && obj.material.emissive && obj.material.emissive.getHex() > 0);
+                          (obj instanceof THREE.Mesh && obj.material && obj.material.emissive && obj.material.emissive.getHex() > 0);
         
         if (shouldHide) {
           hideObject(obj);
@@ -121,7 +122,7 @@ export function Room() {
     
     // Traverse the entire scene to find any glowing/emissive materials that might be unwanted text
     roomGLTF.scene.traverse((child: any) => {
-      if (child.material) {
+      if (child instanceof THREE.Mesh && child.material) {
         const materials = Array.isArray(child.material) ? child.material : [child.material];
         materials.forEach((mat: any) => {
           // If material is glowing blue and has high emissive intensity, it's likely unwanted branding
